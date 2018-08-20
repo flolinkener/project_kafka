@@ -1,0 +1,195 @@
+version: '2'
+services:
+  zookeeper:
+    image: wurstmeister/zookeeper
+    ports:
+      - "2181:2181"
+  kafka1:
+    build: 
+      context: kafka-docker-master/
+      dockerfile: Dockerfile
+    ports:
+      - "32000:9092"
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: 192.168.0.156
+      KAFKA_CREATE_TOPICS: "cars:1:2,python:1:2,java:1:2,javascript:1:2,zookeeper:1:2,C:1:2,R:1:2,spark:1:2,hadoop:1:2,kafka:1:2"
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - "zookeeper"
+      - "db"
+  
+  kafka2:
+    build: 
+      context: kafka-docker-master/
+      dockerfile: Dockerfile
+    ports:
+      - "32001:9092"
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: 192.168.0.156
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - "zookeeper"
+      - "db"
+
+  db:
+    image: mongo:3.0.2
+    ports:
+      - "27017:27017"
+    depends_on:
+      - "zookeeper"
+
+  producer-cars:
+    build:
+      context: .
+      dockerfile: Dockerfile-producer-cars
+    depends_on:
+      - "db"
+      - "kafka1"
+  consumer-cars:
+    build: 
+      context: .
+      dockerfile: Dockerfile-consumer-cars
+    depends_on:
+      - "db"
+      - "kafka1"
+
+
+  producer-python:
+    build:
+      context: .
+      dockerfile: Dockerfile-producer-python
+    depends_on:
+      - "db"
+      - "kafka1"
+  consumer-python:
+    build: 
+      context: .
+      dockerfile: Dockerfile-consumer-python
+    depends_on:
+      - "db"
+      - "kafka1"
+
+
+  producer-java:
+    build:
+      context: .
+      dockerfile: Dockerfile-producer-java
+    depends_on:
+      - "db"
+      - "kafka1"
+  consumer-java:
+    build: 
+      context: .
+      dockerfile: Dockerfile-consumer-java
+    depends_on:
+      - "db"
+      - "kafka1"
+
+  producer-javascript:
+    build:
+      context: .
+      dockerfile: Dockerfile-producer-javascript
+    depends_on:
+      - "db"
+      - "kafka1"
+  consumer-javascript:
+    build: 
+      context: .
+      dockerfile: Dockerfile-consumer-javascript
+    depends_on:
+      - "db"
+      - "kafka1"
+
+  producer-zookeeper:
+    build:
+      context: .
+      dockerfile: Dockerfile-producer-zookeeper
+    depends_on:
+      - "db"
+      - "kafka1"
+  consumer-zookeeper:
+    build: 
+      context: .
+      dockerfile: Dockerfile-consumer-zookeeper
+    depends_on:
+      - "db"
+      - "kafka1"
+
+  # producer-c:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile-producer-c
+  #   depends_on:
+  #     - "db"
+  #     - "kafka1"
+  # consumer-c:
+  #   build: 
+  #     context: .
+  #     dockerfile: Dockerfile-consumer-c
+  #   depends_on:
+  #     - "db"
+  #     - "kafka1"
+
+  # producer-r:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile-producer-r
+  #   depends_on:
+  #     - "db"
+  #     - "kafka1"
+  # consumer-r:
+  #   build: 
+  #     context: .
+  #     dockerfile: Dockerfile-consumer-r
+  #   depends_on:
+  #     - "db"
+  #     - "kafka1"
+
+  producer-spark:
+    build:
+      context: .
+      dockerfile: Dockerfile-producer-spark
+    depends_on:
+      - "db"
+      - "kafka1"
+  consumer-spark:
+    build: 
+      context: .
+      dockerfile: Dockerfile-consumer-spark
+    depends_on:
+      - "db"
+      - "kafka1"
+
+  producer-hadoop:
+    build:
+      context: .
+      dockerfile: Dockerfile-producer-hadoop
+    depends_on:
+      - "db"
+      - "kafka1"
+  consumer-hadoop:
+    build: 
+      context: .
+      dockerfile: Dockerfile-consumer-hadoop
+    depends_on:
+      - "db"
+      - "kafka1"
+
+  producer-kafka:
+    build:
+      context: .
+      dockerfile: Dockerfile-producer-kafka
+    depends_on:
+      - "db"
+      - "kafka1"
+  consumer-kafka:
+    build: 
+      context: .
+      dockerfile: Dockerfile-consumer-kafka
+    depends_on:
+      - "db"
+      - "kafka1"

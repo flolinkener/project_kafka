@@ -1,0 +1,10 @@
+FROM python:3.6
+
+ADD consumer.py .
+
+ADD requirements_consumer.txt .
+
+RUN pip install -r requirements_consumer.txt
+
+
+CMD ["python","-u","consumer.py","zookeeper"]

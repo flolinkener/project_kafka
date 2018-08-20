@@ -1,0 +1,11 @@
+FROM python:3.6
+
+ADD producer.py .
+
+ADD requirements_producer.txt .
+
+RUN pip install -r requirements_producer.txt
+
+
+
+CMD ["python","producer.py","hadoop"]
