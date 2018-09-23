@@ -11,7 +11,7 @@ services:
     ports:
       - "32000:9092"
     environment:
-      KAFKA_ADVERTISED_HOST_NAME: 192.168.0.156
+      KAFKA_ADVERTISED_HOST_NAME: 192.168.0.21
       KAFKA_CREATE_TOPICS: "cars:1:2,python:1:2,java:1:2,javascript:1:2,zookeeper:1:2,C:1:2,R:1:2,spark:1:2,hadoop:1:2,kafka:1:2"
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
     volumes:
@@ -27,7 +27,7 @@ services:
     ports:
       - "32001:9092"
     environment:
-      KAFKA_ADVERTISED_HOST_NAME: 192.168.0.156
+      KAFKA_ADVERTISED_HOST_NAME: 192.168.0.21
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
